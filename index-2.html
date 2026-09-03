@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="A complete responsive single-file e-commerce storefront.">
+<title>SM Bazar — Modern Online Shopping</title>
+<style>
+:root{
+  --bg:#f6f7fb;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;
+  --primary:#111827;--accent:#ff5a36;--accent2:#f97316;--soft:#fff1ec;
+  --success:#159957;--danger:#dc2626;--shadow:0 12px 35px rgba(17,24,39,.08);
+  --radius:18px;--max:1240px;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}a{text-decoration:none;color:inherit}
+.container{width:min(var(--max),calc(100% - 28px));margin:auto}
+.topbar{background:#111827;color:#fff;font-size:13px}.topbar .container{height:36px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.toplinks{display:flex;gap:18px;color:#d1d5db}.toplinks span{cursor:pointer}
+.header{background:#fff;position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line)}
+.header-main{height:74px;display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:24px}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px}.logo b{color:var(--accent)}
+.search{display:flex;background:#f3f4f6;border:1px solid transparent;border-radius:12px;overflow:hidden;height:46px}.search:focus-within{border-color:#d1d5db;background:#fff}.search input{flex:1;border:0;outline:0;background:transparent;padding:0 16px}.search button{width:52px;background:var(--accent);color:#fff}
+.head-actions{display:flex;gap:10px;align-items:center}.icon-btn{background:#fff;border:1px solid var(--line);width:44px;height:44px;border-radius:12px;position:relative;font-size:19px}.badge{position:absolute;right:-4px;top:-5px;background:var(--accent);color:#fff;min-width:19px;height:19px;padding:0 5px;border-radius:99px;font-size:11px;display:grid;place-items:center;font-weight:800}
+.nav{border-top:1px solid #f3f4f6}.nav .container{height:48px;display:flex;align-items:center;gap:25px;overflow:auto;white-space:nowrap}.nav a{font-size:14px;font-weight:700}.nav a:hover{color:var(--accent)}
+.hero{padding:24px 0}.hero-grid{display:grid;grid-template-columns:1.65fr .8fr;gap:18px}.hero-main{min-height:365px;border-radius:24px;padding:44px;display:flex;align-items:center;background:linear-gradient(120deg,#111827 0%,#273449 58%,#ff5a36 150%);color:#fff;overflow:hidden;position:relative}.hero-main:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:-100px;top:-90px;background:rgba(255,255,255,.08)}.hero-copy{position:relative;z-index:2;max-width:590px}.eyebrow{display:inline-flex;padding:7px 11px;border-radius:99px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;margin-bottom:16px}.hero h1{font-size:clamp(35px,5vw,61px);line-height:.98;letter-spacing:-3px;margin:0 0 18px}.hero p{color:#d1d5db;max-width:500px;line-height:1.7;margin:0 0 24px}.hero-side{display:grid;gap:18px}.promo-card{border-radius:24px;padding:26px;background:#fff;box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden}.promo-card:first-child{background:var(--soft)}.promo-card h3{margin:0 0 7px;font-size:22px}.promo-card p{color:var(--muted);margin:0}.promo-code{margin-top:16px;display:inline-block;padding:7px 10px;border:1px dashed var(--accent);border-radius:8px;color:var(--accent);font-weight:800;font-size:12px}
+.btn{height:44px;padding:0 17px;border-radius:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn-primary{background:var(--accent);color:#fff}.btn-dark{background:#111827;color:#fff}.btn-light{background:#fff;border:1px solid var(--line)}.btn-block{width:100%}.btn:active{transform:translateY(1px)}
+.section{padding:18px 0 38px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:18px}.section-head h2{margin:0;font-size:25px;letter-spacing:-.7px}.muted{color:var(--muted);font-size:14px}
+.categories{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}.cat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px 8px;text-align:center;transition:.2s}.cat:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#ddd}.cat-icon{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:#f3f4f6;margin:0 auto 8px;font-size:24px}.cat strong{font-size:12px}
+.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter-btn{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-weight:700;font-size:13px}.filter-btn.active{background:#111827;color:#fff;border-color:#111827}.sort{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;outline:0}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}.product{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;position:relative;transition:.2s}.product:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.product-img{height:235px;background:#f1f3f5;position:relative;overflow:hidden;display:grid;place-items:center}.product-img img{width:100%;height:100%;object-fit:cover;transition:.35s}.product:hover img{transform:scale(1.04)}.discount{position:absolute;left:10px;top:10px;background:var(--accent);color:#fff;padding:6px 8px;border-radius:7px;font-size:11px;font-weight:900}.wish{position:absolute;right:10px;top:10px;background:#fff;width:36px;height:36px;border-radius:50%;box-shadow:0 4px 12px #0001;font-size:18px}.wish.active{color:#ef4444}.product-info{padding:14px}.brand{font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.5px}.product-title{font-size:15px;font-weight:800;margin:5px 0;line-height:1.35}.rating{font-size:12px;color:#f59e0b}.rating span{color:var(--muted)}.price-row{display:flex;align-items:center;gap:8px;margin-top:8px}.price{font-size:18px;font-weight:900}.old{font-size:12px;color:#9ca3af;text-decoration:line-through}.product-actions{display:grid;grid-template-columns:1fr 42px;gap:8px;margin-top:12px}.mini{background:#f3f4f6;border-radius:10px;font-weight:800}.empty{padding:50px 20px;text-align:center;background:#fff;border:1px dashed #d1d5db;border-radius:18px;grid-column:1/-1}
+.banner{background:#111827;color:#fff;border-radius:22px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px}.banner h2{margin:0 0 7px}.banner p{margin:0;color:#cbd5e1}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.feature{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px}.feature b{display:block;margin:8px 0 5px}.feature span{font-size:13px;color:var(--muted)}
+.footer{background:#111827;color:#fff;margin-top:30px}.footer-grid{padding:48px 0;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:30px}.footer h3{margin-top:0}.footer p,.footer a{color:#9ca3af;font-size:14px;line-height:1.8}.footer a{display:block}.copyright{border-top:1px solid #273244;padding:18px 0;color:#9ca3af;font-size:13px}
+.drawer{position:fixed;inset:0;background:#0007;z-index:100;display:none}.drawer.show{display:block}.drawer-panel{margin-left:auto;width:min(470px,100%);height:100%;background:#fff;display:flex;flex-direction:column;animation:slide .2s}.drawer-head{padding:18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.drawer-body{flex:1;overflow:auto;padding:18px}.drawer-foot{padding:18px;border-top:1px solid var(--line)}@keyframes slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.cart-item{display:grid;grid-template-columns:70px 1fr auto;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.cart-item img{width:70px;height:70px;border-radius:11px;object-fit:cover}.cart-item h4{margin:0 0 5px;font-size:14px}.qty{display:flex;align-items:center;gap:7px;margin-top:8px}.qty button{width:27px;height:27px;border-radius:7px;background:#f3f4f6}.remove{color:var(--danger);font-size:12px;background:none;padding:0}
+.modal-wrap{position:fixed;inset:0;background:#0008;z-index:110;display:none;place-items:center;padding:15px}.modal-wrap.show{display:grid}.modal{width:min(850px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 25px 70px #0004}.modal.small{width:min(480px,100%)}.modal-head{padding:19px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.modal-body{padding:22px}.close{background:#f3f4f6;width:36px;height:36px;border-radius:10px;font-size:18px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}.quick-img{width:100%;height:380px;object-fit:cover;border-radius:16px}.quick h2{margin:7px 0}.detail-price{font-size:30px;font-weight:900;margin:15px 0}.detail-desc{color:var(--muted);line-height:1.7}.option{margin:17px 0}.option label{display:block;font-size:13px;font-weight:800;margin-bottom:8px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px}.chip.selected{border-color:#111827;background:#111827;color:#fff}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field input,.field textarea,.field select{border:1px solid #d1d5db;border-radius:10px;padding:11px;outline:0;background:#fff}.field textarea{min-height:90px;resize:vertical}.checkout-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.summary{background:#f9fafb;border:1px solid var(--line);border-radius:15px;padding:17px}.summary-row{display:flex;justify-content:space-between;gap:15px;margin:10px 0;font-size:14px}.summary-row.total{border-top:1px solid var(--line);padding-top:14px;font-size:18px;font-weight:900}
+.notice{padding:11px 13px;border-radius:10px;background:#ecfdf5;color:#166534;font-size:13px;margin-bottom:14px}.coupon{display:flex;gap:7px}.coupon input{flex:1}.coupon button{background:#111827;color:#fff;border-radius:9px;padding:0 13px;font-weight:800}
+.order-card{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}.status{display:inline-flex;padding:6px 9px;border-radius:99px;background:#ecfdf5;color:#166534;font-size:11px;font-weight:900}
+.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);background:#111827;color:#fff;padding:12px 17px;border-radius:10px;z-index:200;opacity:0;pointer-events:none;transition:.25s;font-size:13px;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+.mobile-bottom{display:none}
+@media(max-width:950px){.header-main{grid-template-columns:140px 1fr auto;gap:12px}.categories{grid-template-columns:repeat(4,1fr)}.product-grid{grid-template-columns:repeat(3,1fr)}.hero-grid{grid-template-columns:1fr}.hero-side{grid-template-columns:1fr 1fr}.features{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1.4fr 1fr 1fr}}
+@media(max-width:680px){.topbar{display:none}.header-main{height:auto;padding:10px 0;grid-template-columns:1fr auto;gap:10px}.logo{font-size:22px}.search{grid-column:1/-1;grid-row:2}.head-actions .hide-m{display:none}.nav{display:none}.hero{padding-top:14px}.hero-main{min-height:360px;padding:27px;border-radius:19px}.hero h1{letter-spacing:-2px}.hero-side{grid-template-columns:1fr 1fr}.promo-card{padding:18px}.promo-card h3{font-size:17px}.categories{grid-template-columns:repeat(4,1fr);gap:8px}.cat{padding:11px 4px}.cat-icon{width:42px;height:42px;font-size:20px}.toolbar{align-items:flex-start;flex-direction:column}.product-grid{grid-template-columns:repeat(2,1fr);gap:10px}.product-img{height:185px}.product-info{padding:11px}.product-title{font-size:13px}.price{font-size:16px}.product-actions{grid-template-columns:1fr}.product-actions .mini{display:none}.banner{padding:22px;align-items:flex-start;flex-direction:column}.features{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr;padding-bottom:75px}.footer-grid>div:first-child{grid-column:1/-1}.quick-grid,.checkout-grid{grid-template-columns:1fr}.quick-img{height:270px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.mobile-bottom{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:80;height:62px;justify-content:space-around}.mobile-bottom button{background:none;font-size:11px;font-weight:800;color:#4b5563}.mobile-bottom button b{display:block;font-size:19px;margin-bottom:2px}.section{padding-bottom:28px}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="container"><span>🚚 Free delivery on orders over ৳1,500</span><div class="toplinks"><span onclick="openModal('ordersModal')">Track Order</span><span onclick="openModal('helpModal')">Help Center</span><span onclick="openModal('loginModal')">Sign In</span></div></div></div>
+
+<header class="header">
+  <div class="container header-main">
+    <a class="logo" href="#" onclick="goHome();return false">SM <b>Bazar</b></a>
+    <div class="search"><input id="searchInput" placeholder="Search for products, brands and categories..." oninput="searchProducts()"><button onclick="searchProducts()">⌕</button></div>
+    <div class="head-actions">
+      <button class="icon-btn hide-m" title="Account" onclick="openModal('loginModal')">♙</button>
+      <button class="icon-btn" title="Wishlist" onclick="showWishlist()">♡<i class="badge" id="wishCount">0</i></button>
+      <button class="icon-btn" title="Cart" onclick="openCart()">🛒<i class="badge" id="cartCount">0</i></button>
+    </div>
+  </div>
+  <nav class="nav"><div class="container">
+    <a href="#products">All Products</a><a href="#products" onclick="setCategory('Fashion')">Fashion</a><a href="#products" onclick="setCategory('Electronics')">Electronics</a><a href="#products" onclick="setCategory('Home')">Home & Living</a><a href="#products" onclick="setCategory('Beauty')">Beauty</a><a href="#products" onclick="setCategory('Sports')">Sports</a><a href="#products" onclick="setCategory('Grocery')">Grocery</a><a href="#deals">Deals</a>
+  </div></nav>
+</header>
+
+<main>
+<section class="hero"><div class="container hero-grid">
+  <div class="hero-main"><div class="hero-copy">
+    <span class="eyebrow">🔥 BIGGEST SALE OF THE SEASON</span>
+    <h1>Everything you need.<br>Delivered to you.</h1>
+    <p>Shop thousands of products from fashion and electronics to home essentials. Great prices, secure checkout and fast delivery.</p>
+    <button class="btn btn-primary" onclick="document.getElementById('products').scrollIntoView()">Shop Now →</button>
+  </div></div>
+  <div class="hero-side">
+    <div class="promo-card"><h3>Up to 50% OFF</h3><p>Hot deals picked for you.</p><span class="promo-code">SALE50</span></div>
+    <div class="promo-card"><h3>New User</h3><p>Get ৳200 off your first order.</p><span class="promo-code">WELCOME200</span></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><div><h2>Shop by Category</h2><span class="muted">Find what you need faster</span></div></div>
+  <div class="categories" id="categories"></div>
+</div></section>
+
+<section class="section" id="products"><div class="container">
+  <div class="section-head"><div><h2>Featured Products</h2><span class="muted" id="resultText"></span></div><button class="btn btn-light" onclick="clearFilters()">Clear filters</button></div>
+  <div class="toolbar"><div class="filters" id="filters"></div><select class="sort" id="sortSelect" onchange="renderProducts()"><option value="featured">Sort: Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="rating">Top Rated</option><option value="new">Newest</option></select></div>
+  <div class="product-grid" id="productGrid"></div>
+</div></section>
+
+<section class="section" id="deals"><div class="container"><div class="banner"><div><h2>Weekend Flash Sale ⚡</h2><p>Extra 10% off selected products. Limited time only.</p></div><button class="btn btn-primary" onclick="setCategory('Deals')">View Deals</button></div></div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><div><h2>Why shop with us?</h2></div></div>
+  <div class="features">
+    <div class="feature">🚚<b>Fast Delivery</b><span>Quick delivery across Bangladesh.</span></div>
+    <div class="feature">🔒<b>Secure Payment</b><span>Safe and protected checkout.</span></div>
+    <div class="feature">↩️<b>Easy Returns</b><span>Simple return & refund policy.</span></div>
+    <div class="feature">💬<b>Customer Support</b><span>We're here when you need us.</span></div>
+  </div>
+</div></section>
+</main>
+
+<footer class="footer"><div class="container footer-grid">
+  <div><div class="logo">SM <b>Bazar</b></div><p>A modern online marketplace for everyday shopping. Built as a single-file storefront that works directly on GitHub Pages.</p></div>
+  <div><h3>Shop</h3><a href="#products">All Products</a><a href="#products" onclick="setCategory('Fashion')">Fashion</a><a href="#products" onclick="setCategory('Electronics')">Electronics</a><a href="#products" onclick="setCategory('Home')">Home & Living</a></div>
+  <div><h3>Customer</h3><a onclick="openModal('ordersModal')">Track Order</a><a onclick="openModal('helpModal')">Help Center</a><a onclick="openModal('returnModal')">Returns & Refunds</a><a onclick="openModal('loginModal')">My Account</a></div>
+  <div><h3>Stay Updated</h3><p>Get new deals and product updates.</p><div class="search"><input id="emailInput" placeholder="Your email"><button onclick="subscribe()">→</button></div></div>
+</div><div class="container copyright">© 2026 SM Bazar. All rights reserved. <span style="float:right">Privacy · Terms · Cookies</span></div></footer>
+
+<div class="drawer" id="cartDrawer" onclick="if(event.target===this)closeCart()"><div class="drawer-panel">
+  <div class="drawer-head"><h2 style="margin:0">Your Cart</h2><button class="close" onclick="closeCart()">×</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</div></div>
+
+<div class="modal-wrap" id="quickModal" onclick="if(event.target===this)closeModal('quickModal')"><div class="modal"><div class="modal-head"><b>Product Details</b><button class="close" onclick="closeModal('quickModal')">×</button></div><div class="modal-body" id="quickBody"></div></div></div>
+
+<div class="modal-wrap" id="checkoutModal" onclick="if(event.target===this)closeModal('checkoutModal')"><div class="modal"><div class="modal-head"><b>Secure Checkout</b><button class="close" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><div id="checkoutContent"></div></div></div></div>
+
+<div class="modal-wrap" id="loginModal" onclick="if(event.target===this)closeModal('loginModal')"><div class="modal small"><div class="modal-head"><b>My Account</b><button class="close" onclick="closeModal('loginModal')">×</button></div><div class="modal-body"><div class="notice">Demo account area — connect your backend/authentication later.</div><div class="field"><label>EMAIL</label><input id="loginEmail" type="email" placeholder="you@example.com"></div><div class="field" style="margin-top:12px"><label>PASSWORD</label><input type="password" placeholder="••••••••"></div><button class="btn btn-dark btn-block" style="margin-top:15px" onclick="login()">Sign In</button><button class="btn btn-light btn-block" style="margin-top:8px" onclick="toast('Sign-up flow is ready for backend integration.')">Create New Account</button></div></div></div>
+
+<div class="modal-wrap" id="ordersModal" onclick="if(event.target===this)closeModal('ordersModal')"><div class="modal small"><div class="modal-head"><b>Track / My Orders</b><button class="close" onclick="closeModal('ordersModal')">×</button></div><div class="modal-body" id="ordersBody"></div></div></div>
+<div class="modal-wrap" id="helpModal" onclick="if(event.target===this)closeModal('helpModal')"><div class="modal small"><div class="modal-head"><b>Help Center</b><button class="close" onclick="closeModal('helpModal')">×</button></div><div class="modal-body"><h3>How can we help?</h3><p class="muted">For a production store, connect this section to your support system or WhatsApp/chat provider.</p><div class="order-card"><b>📦 Delivery</b><p class="muted">Standard delivery is shown during checkout based on your address.</p></div><div class="order-card"><b>↩️ Returns</b><p class="muted">Return requests can be submitted within your configured return window.</p></div><div class="order-card"><b>💳 Payments</b><p class="muted">Payment gateway integration can be connected in the checkout function.</p></div></div></div></div>
+<div class="modal-wrap" id="returnModal" onclick="if(event.target===this)closeModal('returnModal')"><div class="modal small"><div class="modal-head"><b>Returns & Refunds</b><button class="close" onclick="closeModal('returnModal')">×</button></div><div class="modal-body"><p>Enter your order number to start a return request.</p><div class="field"><label>ORDER NUMBER</label><input placeholder="e.g. SMB-10001"></div><button class="btn btn-dark btn-block" style="margin-top:12px" onclick="toast('Return request form is ready for backend connection.')">Continue</button></div></div></div>
+
+<div class="toast" id="toast"></div>
+<div class="mobile-bottom">
+  <button onclick="goHome()"><b>⌂</b>Home</button><button onclick="document.getElementById('products').scrollIntoView()"><b>▦</b>Shop</button><button onclick="showWishlist()"><b>♡</b>Wishlist</button><button onclick="openCart()"><b>🛒</b>Cart</button><button onclick="openModal('loginModal')"><b>♙</b>Account</button>
+</div>
+
+<script>
+const products=[
+{id:1,name:"Premium Wireless Headphones",brand:"SoundMax",cat:"Electronics",price:2490,old:3290,rating:4.8,reviews:126,badge:"Best Seller",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",desc:"Immersive wireless audio with deep bass, comfortable ear cushions and long battery life.",colors:["Black","White"],sizes:[]},
+{id:2,name:"Classic Oversized T-Shirt",brand:"UrbanFit",cat:"Fashion",price:690,old:990,rating:4.6,reviews:89,badge:"-30%",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",desc:"Soft premium cotton oversized tee designed for everyday comfort.",colors:["Black","White","Olive"],sizes:["S","M","L","XL"]},
+{id:3,name:"Minimal Ceramic Vase",brand:"CasaHome",cat:"Home",price:850,old:1200,rating:4.7,reviews:54,badge:"Trending",img:"https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=700&q=80",desc:"Elegant minimalist ceramic vase for modern interiors.",colors:["Cream","Black"],sizes:[]},
+{id:4,name:"Smart Fitness Watch",brand:"FitPro",cat:"Electronics",price:3190,old:3990,rating:4.5,reviews:203,badge:"Hot",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80",desc:"Fitness tracking, heart-rate monitoring, notifications and a bright display.",colors:["Black","Silver"],sizes:[]},
+{id:5,name:"Everyday Running Shoes",brand:"Stride",cat:"Sports",price:1890,old:2490,rating:4.7,reviews:111,badge:"-24%",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",desc:"Lightweight cushioned running shoes for training and daily wear.",colors:["Red","Black","Blue"],sizes:["39","40","41","42","43"]},
+{id:6,name:"Hydrating Face Serum",brand:"GlowLab",cat:"Beauty",price:1150,old:1450,rating:4.9,reviews:76,badge:"Top Rated",img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80",desc:"Lightweight daily serum formulated for a fresh, hydrated-looking complexion.",colors:[],sizes:[]},
+{id:7,name:"Stainless Steel Bottle",brand:"HydroGo",cat:"Sports",price:780,old:990,rating:4.6,reviews:63,badge:"Eco Pick",img:"https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=700&q=80",desc:"Durable reusable bottle with leak-resistant lid and insulated body.",colors:["Silver","Black","Blue"],sizes:[]},
+{id:8,name:"Premium Cotton Bedsheet",brand:"CasaHome",cat:"Home",price:1390,old:1790,rating:4.4,reviews:47,badge:"Deal",img:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=700&q=80",desc:"Soft breathable cotton bedsheet with a clean contemporary finish.",colors:["White","Grey"],sizes:["Queen","King"]},
+{id:9,name:"Classic Analog Watch",brand:"TimeCraft",cat:"Fashion",price:2190,old:2890,rating:4.7,reviews:71,badge:"New",img:"https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=700&q=80",desc:"A timeless analog watch with a clean dial and premium strap.",colors:["Brown","Black"],sizes:[]},
+{id:10,name:"Organic Green Tea",brand:"PureLeaf",cat:"Grocery",price:420,old:520,rating:4.8,reviews:34,badge:"Fresh",img:"https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&w=700&q=80",desc:"Refreshing aromatic green tea for your everyday cup.",colors:[],sizes:["100g","250g"]},
+{id:11,name:"Portable Bluetooth Speaker",brand:"SoundMax",cat:"Electronics",price:1590,old:1990,rating:4.6,reviews:142,badge:"Popular",img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80",desc:"Compact wireless speaker with punchy sound and portable design.",colors:["Black","Blue"],sizes:[]},
+{id:12,name:"Kitchen Storage Set",brand:"CasaHome",cat:"Home",price:990,old:1290,rating:4.5,reviews:38,badge:"Value",img:"https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=700&q=80",desc:"Practical storage containers to keep your kitchen organized.",colors:["Clear"],sizes:["6 pcs","12 pcs"]},
+{id:13,name:"Relaxed Fit Hoodie",brand:"UrbanFit",cat:"Fashion",price:1290,old:1690,rating:4.8,reviews:97,badge:"Winter Pick",img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",desc:"Warm relaxed-fit hoodie with a soft brushed interior.",colors:["Black","Grey","Navy"],sizes:["M","L","XL"]},
+{id:14,name:"Daily Sunscreen SPF 50",brand:"GlowLab",cat:"Beauty",price:890,old:1090,rating:4.7,reviews:92,badge:"Top Rated",img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=700&q=80",desc:"Daily sunscreen with high protection and a lightweight finish.",colors:[],sizes:[]},
+{id:15,name:"Dumbbell Pair 5kg",brand:"FitPro",cat:"Sports",price:1750,old:2100,rating:4.5,reviews:28,badge:"Deal",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=700&q=80",desc:"Durable dumbbell pair for home strength workouts.",colors:["Black"],sizes:["5kg"]},
+{id:16,name:"Premium Coffee Beans",brand:"PureLeaf",cat:"Grocery",price:760,old:920,rating:4.9,reviews:55,badge:"Fresh",img:"https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=700&q=80",desc:"Rich roasted coffee beans with a smooth aromatic profile.",colors:[],sizes:["250g","500g"]}
+];
+
+const categories=[
+["🛍️","All","All Products"],["👕","Fashion","Fashion"],["📱","Electronics","Electronics"],["🏠","Home","Home & Living"],
+["💄","Beauty","Beauty"],["⚽","Sports","Sports"],["🥬","Grocery","Grocery"],["🔥","Deals","Deals"]
+];
+
+let state={category:"All",query:"",sort:"featured",cart:JSON.parse(localStorage.getItem("smbazar_cart")||"[]"),wish:JSON.parse(localStorage.getItem("smbazar_wish")||"[]"),orders:JSON.parse(localStorage.getItem("smbazar_orders")||"[]")};
+
+function money(n){return "৳"+Number(n).toLocaleString("en-BD")}
+function save(){localStorage.setItem("smbazar_cart",JSON.stringify(state.cart));localStorage.setItem("smbazar_wish",JSON.stringify(state.wish));localStorage.setItem("smbazar_orders",JSON.stringify(state.orders));updateBadges()}
+function updateBadges(){document.getElementById("cartCount").textContent=state.cart.reduce((a,x)=>a+x.qty,0);document.getElementById("wishCount").textContent=state.wish.length}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2400)}
+function openModal(id){document.getElementById(id).classList.add("show");if(id==="ordersModal")renderOrders()}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function goHome(){window.scrollTo({top:0,behavior:"smooth"})}
+
+function renderCategories(){
+ document.getElementById("categories").innerHTML=categories.map(c=>`<button class="cat" onclick="setCategory('${c[1]}')"><div class="cat-icon">${c[0]}</div><strong>${c[2]}</strong></button>`).join("");
+ document.getElementById("filters").innerHTML=categories.map(c=>`<button class="filter-btn ${state.category===c[1]?"active":""}" onclick="setCategory('${c[1]}')">${c[2]}</button>`).join("");
+}
+function setCategory(c){state.category=c;renderCategories();renderProducts();document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+function searchProducts(){state.query=document.getElementById("searchInput").value.toLowerCase().trim();renderProducts()}
+function clearFilters(){state.category="All";state.query="";document.getElementById("searchInput").value="";document.getElementById("sortSelect").value="featured";state.sort="featured";renderCategories();renderProducts()}
+
+function renderProducts(){
+ state.sort=document.getElementById("sortSelect").value;
+ let list=products.filter(p=>(state.category==="All"||p.cat===state.category||(state.category==="Deals"&&p.old>p.price)) && (!state.query||[p.name,p.brand,p.cat].join(" ").toLowerCase().includes(state.query)));
+ if(state.sort==="low")list.sort((a,b)=>a.price-b.price);if(state.sort==="high")list.sort((a,b)=>b.price-a.price);if(state.sort==="rating")list.sort((a,b)=>b.rating-a.rating);if(state.sort==="new")list.sort((a,b)=>b.id-a.id);
+ document.getElementById("resultText").textContent=`${list.length} product${list.length!==1?"s":""} found`;
+ document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):`<div class="empty"><div style="font-size:35px">🔎</div><h3>No products found</h3><p class="muted">Try another search or clear your filters.</p><button class="btn btn-dark" onclick="clearFilters()">Show all products</button></div>`;
+}
+function card(p){
+ const liked=state.wish.includes(p.id), discount=Math.round((1-p.price/p.old)*100);
+ return `<article class="product"><div class="product-img"><img loading="lazy" src="${p.img}" alt="${p.name}" onerror="this.style.display='none'"><span class="discount">${p.badge||"-"+discount+"%"}</span><button class="wish ${liked?"active":""}" onclick="toggleWish(${p.id})">${liked?"♥":"♡"}</button></div><div class="product-info"><div class="brand">${p.brand}</div><div class="product-title">${p.name}</div><div class="rating">★★★★★ <span>${p.rating} (${p.reviews})</span></div><div class="price-row"><span class="price">${money(p.price)}</span><span class="old">${money(p.old)}</span></div><div class="product-actions"><button class="btn btn-primary" onclick="addToCart(${p.id})">Add to Cart</button><button class="mini" onclick="quickView(${p.id})">↗</button></div></div></article>`;
+}
+function toggleWish(id){const i=state.wish.indexOf(id);if(i>-1){state.wish.splice(i,1);toast("Removed from wishlist")}else{state.wish.push(id);toast("Added to wishlist")}save();renderProducts()}
+function showWishlist(){const list=products.filter(p=>state.wish.includes(p.id));state.category="__wish";document.getElementById("resultText").textContent=`${list.length} saved product${list.length!==1?"s":""}`;document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):`<div class="empty"><div style="font-size:35px">♡</div><h3>Your wishlist is empty</h3><p class="muted">Save products you love and find them here.</p><button class="btn btn-dark" onclick="clearFilters()">Browse Products</button></div>`;document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+
+function addToCart(id,qty=1,variant={}){
+ const item=state.cart.find(x=>x.id===id&&JSON.stringify(x.variant||{})===JSON.stringify(variant||{}));
+ if(item)item.qty+=qty;else state.cart.push({id,qty,variant});
+ save();toast("Added to cart");openCart();
+}
+function removeCart(index){state.cart.splice(index,1);save();renderCart()}
+function changeQty(index,d){state.cart[index].qty=Math.max(1,state.cart[index].qty+d);save();renderCart()}
+function cartSubtotal(){return state.cart.reduce((sum,x)=>{const p=products.find(p=>p.id===x.id);return sum+p.price*x.qty},0)}
+function openCart(){document.getElementById("cartDrawer").classList.add("show");renderCart()}
+function closeCart(){document.getElementById("cartDrawer").classList.remove("show")}
+function renderCart(){
+ const body=document.getElementById("cartBody"),foot=document.getElementById("cartFoot");
+ if(!state.cart.length){body.innerHTML=`<div style="text-align:center;padding:55px 10px"><div style="font-size:48px">🛒</div><h3>Your cart is empty</h3><p class="muted">Add something you love.</p><button class="btn btn-dark" onclick="closeCart();document.getElementById('products').scrollIntoView()">Start Shopping</button></div>`;foot.innerHTML="";return}
+ body.innerHTML=state.cart.map((x,i)=>{const p=products.find(p=>p.id===x.id);return `<div class="cart-item"><img src="${p.img}" alt=""><div><h4>${p.name}</h4><div class="muted">${money(p.price)} ${Object.values(x.variant||{}).join(" · ")}</div><div class="qty"><button onclick="changeQty(${i},-1)">−</button><b>${x.qty}</b><button onclick="changeQty(${i},1)">+</button><button class="remove" onclick="removeCart(${i})">Remove</button></div></div><b>${money(p.price*x.qty)}</b></div>`}).join("");
+ const sub=cartSubtotal(),delivery=sub>=1500?0:80;
+ foot.innerHTML=`<div class="summary-row"><span>Subtotal</span><b>${money(sub)}</b></div><div class="summary-row"><span>Delivery</span><b>${delivery?money(delivery):"FREE"}</b></div><div class="summary-row total"><span>Total</span><b>${money(sub+delivery)}</b></div><button class="btn btn-primary btn-block" onclick="openCheckout()">Proceed to Checkout →</button>`;
+}
+
+function quickView(id){
+ const p=products.find(p=>p.id===id);
+ document.getElementById("quickBody").innerHTML=`<div class="quick-grid"><div><img class="quick-img" src="${p.img}" alt="${p.name}"></div><div class="quick"><div class="brand">${p.brand}</div><h2>${p.name}</h2><div class="rating">★★★★★ <span>${p.rating} (${p.reviews} reviews)</span></div><div class="detail-price">${money(p.price)} <del style="font-size:14px;color:#9ca3af">${money(p.old)}</del></div><p class="detail-desc">${p.desc}</p>${p.colors.length?`<div class="option"><label>COLOR</label><div class="chips" id="colorChips">${p.colors.map((x,i)=>`<button class="chip ${i===0?"selected":""}" onclick="selectChip(this)">${x}</button>`).join("")}</div></div>`:""}${p.sizes.length?`<div class="option"><label>SIZE / PACK</label><div class="chips" id="sizeChips">${p.sizes.map((x,i)=>`<button class="chip ${i===0?"selected":""}" onclick="selectChip(this)">${x}</button>`).join("")}</div></div>`:""}<div style="display:flex;gap:9px;margin-top:20px"><button class="btn btn-primary" style="flex:1" onclick="addFromQuick(${p.id})">Add to Cart</button><button class="btn btn-light" onclick="toggleWish(${p.id});quickView(${p.id})">${state.wish.includes(p.id)?"♥ Saved":"♡ Wishlist"}</button></div></div></div><hr style="border:0;border-top:1px solid var(--line);margin:24px 0"><h3>Customer Reviews</h3><div class="order-card"><b>★★★★★ Verified buyer</b><p class="muted">Great quality and fast delivery. Product matched the description.</p></div><div class="order-card"><b>★★★★☆ Verified buyer</b><p class="muted">Good value for money. Packaging was also nice.</p></div>`;
+ openModal("quickModal");
+}
+function selectChip(el){el.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));el.classList.add("selected")}
+function addFromQuick(id){
+ const color=document.querySelector("#colorChips .selected")?.textContent||"",size=document.querySelector("#sizeChips .selected")?.textContent||"";
+ closeModal("quickModal");addToCart(id,1,{color,size});
+}
+
+function openCheckout(){
+ if(!state.cart.length){toast("Your cart is empty");return}
+ closeCart();renderCheckout();openModal("checkoutModal");
+}
+function renderCheckout(){
+ const sub=cartSubtotal(),delivery=sub>=1500?0:80;
+ document.getElementById("checkoutContent").innerHTML=`<div class="checkout-grid"><div><div class="notice">🔒 Your information is protected during checkout.</div><h3>1. Delivery Address</h3><div class="form-grid"><div class="field"><label>FULL NAME *</label><input id="coName" placeholder="Your name"></div><div class="field"><label>PHONE *</label><input id="coPhone" placeholder="01XXXXXXXXX"></div><div class="field full"><label>EMAIL</label><input id="coEmail" type="email" placeholder="you@example.com"></div><div class="field full"><label>ADDRESS *</label><textarea id="coAddress" placeholder="House, road, area"></textarea></div><div class="field"><label>CITY *</label><select id="coCity"><option>Dhaka</option><option>Chattogram</option><option>Sylhet</option><option>Rajshahi</option><option>Khulna</option><option>Other</option></select></div><div class="field"><label>POSTCODE</label><input id="coPost" placeholder="1200"></div></div><h3 style="margin-top:25px">2. Payment Method</h3><div class="order-card"><label><input type="radio" name="pay" value="cod" checked> 💵 Cash on Delivery</label><br><br><label><input type="radio" name="pay" value="online"> 💳 Card / Mobile Banking (gateway hook ready)</label></div><h3 style="margin-top:25px">3. Order Note</h3><div class="field"><textarea id="coNote" placeholder="Optional delivery note"></textarea></div></div><div><div class="summary"><h3 style="margin-top:0">Order Summary</h3>${state.cart.map(x=>{const p=products.find(p=>p.id===x.id);return `<div class="summary-row"><span>${p.name} × ${x.qty}</span><b>${money(p.price*x.qty)}</b></div>`}).join("")}<div class="summary-row"><span>Subtotal</span><b>${money(sub)}</b></div><div class="summary-row"><span>Delivery</span><b>${delivery?"৳80":"FREE"}</b></div><div class="summary-row total"><span>Total</span><b>${money(sub+delivery)}</b></div><div class="coupon"><input id="couponInput" placeholder="Coupon code"><button onclick="applyCoupon()">Apply</button></div><div id="couponMsg" class="muted" style="margin-top:7px"></div><button class="btn btn-primary btn-block" style="margin-top:15px" onclick="placeOrder()">Place Order • ${money(sub+delivery)}</button></div></div></div>`;
+}
+function applyCoupon(){const c=document.getElementById("couponInput").value.trim().toUpperCase();const msg=document.getElementById("couponMsg");if(c==="WELCOME200"){msg.textContent="✓ ৳200 welcome discount applied (demo).";msg.style.color="var(--success)"}else if(c==="SALE50"){msg.textContent="✓ SALE50 accepted for eligible items (demo).";msg.style.color="var(--success)"}else{msg.textContent="Invalid or expired coupon.";msg.style.color="var(--danger)"}}
+function placeOrder(){
+ const name=document.getElementById("coName").value.trim(),phone=document.getElementById("coPhone").value.trim(),address=document.getElementById("coAddress").value.trim();
+ if(!name||!phone||!address){toast("Please complete the required address fields");return}
+ const id="SMB-"+String(Date.now()).slice(-7),sub=cartSubtotal(),delivery=sub>=1500?0:80;
+ const order={id,date:new Date().toLocaleString("en-BD"),name,phone,address,city:document.getElementById("coCity").value,total:sub+delivery,status:"Confirmed",items:state.cart};
+ state.orders.unshift(order);state.cart=[];save();closeModal("checkoutModal");
+ document.getElementById("ordersBody").innerHTML=`<div style="text-align:center;padding:15px"><div style="font-size:50px">🎉</div><h2>Order Confirmed!</h2><p class="muted">Your order number is</p><h3>${id}</h3><span class="status">Confirmed</span><p class="muted">We'll use your phone number for delivery updates.</p><button class="btn btn-dark" onclick="closeModal('ordersModal')">Continue Shopping</button></div>`;
+ openModal("ordersModal");toast("Order placed successfully");
+}
+function renderOrders(){
+ const body=document.getElementById("ordersBody");
+ if(!state.orders.length){body.innerHTML=`<div style="text-align:center;padding:35px"><div style="font-size:40px">📦</div><h3>No orders yet</h3><p class="muted">Your completed orders will appear here.</p></div>`;return}
+ body.innerHTML=state.orders.map(o=>`<div class="order-card"><div style="display:flex;justify-content:space-between;gap:10px"><b>${o.id}</b><span class="status">${o.status}</span></div><p class="muted">${o.date}</p><div class="summary-row"><span>Total</span><b>${money(o.total)}</b></div><button class="btn btn-light" onclick="toast('Order ${o.id} is currently ${o.status}.')">Track Order</button></div>`).join("");
+}
+function login(){const e=document.getElementById("loginEmail").value.trim();if(!e){toast("Enter your email");return}localStorage.setItem("smbazar_user",e);closeModal("loginModal");toast("Signed in (demo mode)")}
+function subscribe(){const e=document.getElementById("emailInput").value.trim();if(!e||!e.includes("@")){toast("Please enter a valid email");return}toast("You're subscribed — welcome!")}
+renderCategories();renderProducts();updateBadges();
+</script>
+</body>
+</html>
