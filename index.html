@@ -32,4 +32,56 @@ $('#checkBtn').onclick=async()=>{const a=address.value.trim(); if(!/^0x[a-fA-F0-
 $('#clearBtn').onclick=()=>{address.value='';setStatus('','READY_','Enter a public address to begin.')};
 address.addEventListener('keydown',e=>{if(e.key==='Enter')$('#checkBtn').click()});
 (async()=>{try{const d=await api('/api/health');$('#apiStatus').innerHTML='<div class="big" style="color:var(--green)">ONLINE ✓</div><p>Hood Cheggy API is responding normally.</p>'}catch{$('#apiStatus').innerHTML='<div class="big" style="color:var(--red)">OFFLINE</div><p>Start the Node server to enable live verification.</p>'}})();
-</script></body></html>
+</script>
+<script>
+/*
+  HOOD CHEGGY — eligibility only.
+  The existing design is intentionally untouched.
+  Public flow: address submit -> Supabase Edge Function -> ELIGIBLE / NOT ELIGIBLE.
+*/
+const SUPABASE_FUNCTION_URL = "REPLACE_WITH_SUPABASE_FUNCTION_URL";
+const SUPABASE_ANON_KEY = "REPLACE_WITH_SUPABASE_ANON_KEY";
+
+async function checkEligibility(address) {
+  const response = await fetch(SUPABASE_FUNCTION_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({ address })
+  });
+
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Verification failed");
+  return data;
+}
+</script>
+
+
+<script>
+(function(){
+  const input = document.querySelector("#walletAddress, #address, input[name='address']");
+  const button = document.querySelector("#checkEligibility, #check, button[type='submit']");
+  if(!input || !button) return;
+  const original = button.onclick;
+  button.addEventListener("click", async function(e){
+    if (typeof SUPABASE_FUNCTION_URL === "undefined" || SUPABASE_FUNCTION_URL.includes("REPLACE")) return;
+    e.preventDefault();
+    const addr = input.value.trim();
+    if(!/^0x[a-fA-F0-9]{40}$/.test(addr)) return;
+    try{
+      const d = await checkEligibility(addr);
+      const text = d.eligible ? "WL ELIGIBLE" : "NOT ELIGIBLE";
+      const candidates = document.querySelectorAll("[data-result], #result, .result, .status");
+      candidates.forEach(el => {
+        if(el.textContent && (el.textContent.includes("ELIGIBLE") || el.textContent.includes("NOT ELIGIBLE") || el.textContent.includes("READY"))) {
+          el.textContent = text;
+        }
+      });
+    }catch(err){}
+  }, true);
+})();
+</script>
+
+</body></html>
